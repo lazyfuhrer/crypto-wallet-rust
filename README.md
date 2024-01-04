@@ -1,0 +1,1 @@
+Implements ECDSA and BIP 340 signatures for the SECG elliptic curve group secp256k1 and related utilities
