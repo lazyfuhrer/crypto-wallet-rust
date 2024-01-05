@@ -122,3 +122,18 @@ pub async fn sign_and_send(
         .await?;
     Ok(transaction_result)
 }
+
+pub async fn get_balance_static(public_address: &str , web3_connection: &Web3<transports::WebSocket>) -> Result<U256> {
+    let wallet_address = Address::from_str(&public_address)?;
+    let balance = web3_connection.eth().balance(wallet_address, None).await?;
+
+    Ok(balance)
+}
+
+pub async fn get_balance_in_eth_static(
+    public_address: &str,
+    web3_connection: &Web3<transports::WebSocket>,
+) -> Result<f64> {
+    let wei_balance = get_balance_static(public_address, web3_connection).await?;
+    Ok(utils::wei_to_eth(wei_balance))
+}
