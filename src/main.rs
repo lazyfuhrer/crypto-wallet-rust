@@ -17,14 +17,14 @@ async fn main() -> Result<()> {
     let matches = Command::new("cli-tool")
         .version("0.1.0")
         .author("Biswarghya Biswas")
-        .about("A simple CLI tool (Curently supports Holesky testnet)")
+        .about("A simple CLI tool (Currently supports Holesky testnet)")
         .subcommand(
             Command::new("create")
-                .about("Creates something")
-        )/* 
+                .about("Creates a wallet pair")
+        )
         .subcommand(
             Command::new("send")
-                .about("Sends something")
+                .about("Sends ether to an address")
                 .arg(Arg::new("to-addr")
                     .short('t')
                     .long("to-addr")
@@ -38,18 +38,18 @@ async fn main() -> Result<()> {
                     .value_name("VALUE")
                     .help("The value to send")
                     .required(true)
-                    .value_parser(clap::value_parser!(String)))
+                    .value_parser(clap::value_parser!(String))) 
                 .arg(Arg::new("secret-key")
                     .short('s')
                     .long("secret-key")
                     .value_name("KEY")
                     .help("The secret key to use")
                     .required(true)
-                    .value_parser(clap::value_parser!(String)))
-        )*/
+                    .value_parser(clap::value_parser!(String))) 
+        )
         .subcommand(
             Command::new("balance")
-                .about("Checks balance")
+                .about("Checks balance of an address")
                 .arg(Arg::new("addr")
                     .short('a')
                     .long("address")
@@ -73,9 +73,9 @@ async fn main() -> Result<()> {
         println!("public address: {:?}", pub_address);
     }
 
-    /*if let Some(_matches) = matches.subcommand_matches("send") {
+    if let Some(matches) = matches.subcommand_matches("send") {
 
-        let to_addr = matches.get_one::<String>("to-addr").unwrap();
+        let to_addr = matches.get_one::<String>("to-addr").unwrap(); 
         let value = matches.get_one::<String>("value").unwrap();
         let secret_key = matches.get_one::<String>("secret-key").unwrap();
 
@@ -83,13 +83,14 @@ async fn main() -> Result<()> {
             Address::from_str(to_addr)?,
             value.parse::<f64>()?,
         );
-        /*let transact_hash = eth_wallet::sign_and_send(&web3_con, transaction, &SecretKey::from_str(secret_key)?).await?;
-        println!("Transaction Hash: {:?}", transact_hash);*/
-    }*/
+        let transact_hash = eth_wallet::sign_and_send(&web3_con, transaction, &SecretKey::from_str(secret_key)?).await?;
+        println!("Transaction Hash: {:?}", transact_hash);
+    }
 
-    if let Some(_matches) = matches.subcommand_matches("balance") {
-        let addr = matches.get_one::<String>("addr").unwrap();  // Use "addr" here
-        let balance = eth_wallet::get_balance_in_eth_static(&addr, &web3_con).await?;
+    if let Some(matches) = matches.subcommand_matches("balance") {
+        let address = matches.get_one::<String>("addr").unwrap();
+
+        let balance = eth_wallet::get_balance_in_eth_static(&address, &web3_con).await?;
         println!("wallet balance: {}", &balance);
     }
 
