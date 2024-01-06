@@ -11,7 +11,6 @@
 
 - **Wallet Management:** Create, manage Ethereum wallets.
 - **Transaction Handling:** Send and receive transactions on the Ethereum blockchain.
-- **Web3 Integration:** Interact with the Ethereum blockchain using the web3 library.
 - **Secure Key Handling:** Utilizes the secp256k1 library for secure key operations.
 
 ## Installation
