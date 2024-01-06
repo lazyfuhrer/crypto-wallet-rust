@@ -1,7 +1,7 @@
 # my-eth-tool
 
 [![License](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/lazyfuhrer/my-eth-tool/blob/main/LICENSE)
-[![Build Status](https://github.com/lazyfuhrer/my-eth-tool/actions/workflows/build.yml/badge.svg)](https://github.com/lazyfuhrer/my-eth-tool/actions/workflows/build.yml)
+[![Rust](https://github.com/lazyfuhrer/my-eth-tool/actions/workflows/rust.yml/badge.svg)](https://github.com/lazyfuhrer/my-eth-tool/actions/workflows/rust.yml)
 
 ## Overview
 
