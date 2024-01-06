@@ -1,0 +1,24 @@
+name: Rust Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@latest
+
+    - name: Set up Rust
+      uses: actions/setup-rust@latest
+      with:
+        profile: minimal
+
+    - name: Build application
+      run: |
+        cargo build --release
+    # Add additional steps as needed, such as running tests, etc.
