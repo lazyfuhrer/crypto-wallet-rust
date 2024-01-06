@@ -58,6 +58,14 @@ For help,
 ```bash
   my-eth-tool --help
 ```
+## Screenshots
+![help](https://github.com/lazyfuhrer/my-eth-tool/assets/64888892/28ada00e-7b76-46a6-b8a3-5c045d252048) <br> <br>
+![create](https://github.com/lazyfuhrer/my-eth-tool/assets/64888892/7504592e-a674-45a9-98cc-461b0ee0ad99) <br> <br>
+![send](https://github.com/lazyfuhrer/my-eth-tool/assets/64888892/adb6ddad-281a-417e-bd77-9b52ea742b3b) <br> <br>
+![balance](https://github.com/lazyfuhrer/my-eth-tool/assets/64888892/97236ab6-4df9-4839-a7e4-dd951fbdc374) <br> <br>
+![block-number](https://github.com/lazyfuhrer/my-eth-tool/assets/64888892/d8b5937a-157e-4996-9d4e-7558146dd477)
+
+
 ## License
 
 This project is licensed under the terms of the [MIT License](LICENSE) or the [Apache License 2.0](LICENSE).
