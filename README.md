@@ -59,3 +59,10 @@ For help,
 ```bash
   my-eth-tool --help
 ```
+## License
+
+This project is licensed under the terms of the [MIT License](LICENSE) or the [Apache License 2.0](LICENSE).
+
+The MIT License is a permissive open source license that allows for free use, modification, and distribution of the software, while the Apache License 2.0 is a more detailed and strict license. You can choose the license that best fits your needs.
+
+For more details, see the [LICENSE](LICENSE) file.
