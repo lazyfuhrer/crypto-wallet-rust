@@ -137,3 +137,7 @@ pub async fn get_balance_in_eth_static(
     let wei_balance = get_balance_static(public_address, web3_connection).await?;
     Ok(utils::wei_to_eth(wei_balance))
 }
+
+pub fn get_block_explorer_url(transaction_hash: &str) -> String {
+    format!("https://holesky.beaconcha.in/tx/{}", &transaction_hash)
+}

@@ -19,14 +19,14 @@ async fn main() -> Result<()> {
     let matches = Command::new("cli-tool")
         .version("0.1.0")
         .author("Biswarghya Biswas")
-        .about("A simple CLI tool (Currently supports Holesky testnet)")
+        .about("A command-line tool for interacting with Ethereum using the HOLESKY network")
         .subcommand(
             Command::new("create")
-                .about("Creates a wallet pair")
+                .about("Creates a secp256k1 ECC compatible key pair")
         )
         .subcommand(
             Command::new("send")
-                .about("Sends ether to an address")
+                .about("Sends ether to an address (HOLESKY)")
 
                 .arg(Arg::new("to-addr")
                     .short('t')
@@ -40,7 +40,7 @@ async fn main() -> Result<()> {
                     .short('v')
                     .long("value")
                     .value_name("VALUE")
-                    .help("The value to send")
+                    .help("The value to send in ether")
                     .required(true)
                     .value_parser(clap::value_parser!(String))) 
 
@@ -54,7 +54,7 @@ async fn main() -> Result<()> {
         )
         .subcommand(
             Command::new("balance")
-                .about("Checks balance of an address")
+                .about("Checks balance of an address (HOLESKY)")
 
                 .arg(Arg::new("addr")
                     .short('a')
@@ -66,7 +66,7 @@ async fn main() -> Result<()> {
         )
         .subcommand(
             Command::new("block")
-                .about("Returns current block number")
+                .about("Returns current block number (HOLESKY)")
         )
         .get_matches();
 
@@ -76,10 +76,12 @@ async fn main() -> Result<()> {
             let pub_address = eth_wallet::public_key_address(&pub_key);
             let pub_address_string = format!("{:?}", &pub_address);
 
-            println!("\nSecret Key:       {}", &secret_key.to_string().green());
-            println!("Public Key:       {}", &pub_key.to_string().green());
+            print!("\n============================================================================================\n");
+            println!("\nSecret Key:       {}", &secret_key.to_string().green().bold());
+            println!("Public Key:       {}", &pub_key.to_string().green().bold());
             //println!("Public Address: {:?}", &pub_address);
-            println!("Public Address:   {}\n", &pub_address_string.green());
+            println!("Public Address:   {}\n", &pub_address_string.green().bold());
+            print!("============================================================================================\n\n");
         }
         
 
@@ -96,7 +98,10 @@ async fn main() -> Result<()> {
         let transact_hash_string = format!("{:?}", &transact_hash);
 
         //println!("Transaction Hash:       {:?}", &transact_hash);
-        println!("\nTransaction Hash:   {}\n", &transact_hash_string.green());
+        print!("\n============================================================================================\n");
+        println!("\nTransaction Hash: {}\n", &transact_hash_string.green().bold());
+        println!("View on Block Explorer: {}", eth_wallet::get_block_explorer_url(&transact_hash_string).green().bold());
+        print!("\n============================================================================================\n\n");
     }
 
     if let Some(matches) = matches.subcommand_matches("balance") {
@@ -105,14 +110,18 @@ async fn main() -> Result<()> {
         let balance = eth_wallet::get_balance_in_eth_static(&address, &web3_con).await?;
         let formatted_balance = format!("{} ETH", &balance.to_string());
 
-        println!("\nWallet Balance:   {}\n", &formatted_balance.to_string().green());
+        print!("\n========================================================\n");
+        println!("\nWallet Balance: {}\n", &formatted_balance.to_string().green().bold());
+        print!("========================================================\n\n");
     }
 
     if let Some(_matches) = matches.subcommand_matches("block") {
-        
+
         let block_number = web3_con.eth().block_number().await?;
 
-        println!("\nBlock Number:   {}\n", &block_number.to_string().green());
+        print!("\n===================================================\n");
+        println!("\nBlock Number: {}\n", &block_number.to_string().green().bold());
+        print!("===================================================\n\n");
     }
 
     Ok(())
