@@ -1,5 +1,5 @@
 [package]
-name = "crypto-wallet-rust"
+name = "my-eth-tool"
 version = "0.1.0"
 edition = "2021"
 
