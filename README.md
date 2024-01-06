@@ -28,7 +28,7 @@ cargo install my-eth-tool
 ```bash
 my-eth-tool create
 ```
-- This command generates a new Ethereum wallet.
+- This command generates a new Ethereum wallet key pair.
 
 ### 2. Send Ether to Another Address
 
