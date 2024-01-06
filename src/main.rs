@@ -19,7 +19,7 @@ async fn main() -> Result<()> {
     let matches = Command::new("cli-tool")
         .version("0.1.0")
         .author("Biswarghya Biswas")
-        .about("A command-line tool for interacting with Ethereum using the HOLESKY network")
+        .about("A command-line tool for interacting with Ethereum for the HOLESKY network")
         .subcommand(
             Command::new("create")
                 .about("Creates a secp256k1 ECC compatible key pair")
