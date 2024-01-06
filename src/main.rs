@@ -4,12 +4,14 @@ use std::env;
 use std::str::FromStr;
 use web3::types::Address;
 use secp256k1::SecretKey;
+use colored::*;
 
 mod utils;
 mod eth_wallet;
 
 #[tokio::main]
 async fn main() -> Result<()> {
+
     dotenv::dotenv().ok();
     let endpoint = env::var("QUICKNODE_HOLESKY_WS")?;
     let web3_con = eth_wallet::establish_web3_connection(&endpoint).await?;
@@ -25,6 +27,7 @@ async fn main() -> Result<()> {
         .subcommand(
             Command::new("send")
                 .about("Sends ether to an address")
+
                 .arg(Arg::new("to-addr")
                     .short('t')
                     .long("to-addr")
@@ -32,6 +35,7 @@ async fn main() -> Result<()> {
                     .help("The address to send to")
                     .required(true)
                     .value_parser(clap::value_parser!(String))) 
+
                 .arg(Arg::new("value")
                     .short('v')
                     .long("value")
@@ -39,6 +43,7 @@ async fn main() -> Result<()> {
                     .help("The value to send")
                     .required(true)
                     .value_parser(clap::value_parser!(String))) 
+
                 .arg(Arg::new("secret-key")
                     .short('s')
                     .long("secret-key")
@@ -50,6 +55,7 @@ async fn main() -> Result<()> {
         .subcommand(
             Command::new("balance")
                 .about("Checks balance of an address")
+
                 .arg(Arg::new("addr")
                     .short('a')
                     .long("address")
@@ -64,39 +70,49 @@ async fn main() -> Result<()> {
         )
         .get_matches();
 
-    if let Some(_matches) = matches.subcommand_matches("create") {
-        let (secret_key, pub_key) = eth_wallet::generate_keypair();
-        let pub_address = eth_wallet::public_key_address(&pub_key);
+        if let Some(_matches) = matches.subcommand_matches("create") {
 
-        println!("secret key: {}", &secret_key.to_string());
-        println!("public key: {}", &pub_key.to_string());
-        println!("public address: {:?}", pub_address);
-    }
+            let (secret_key, pub_key) = eth_wallet::generate_keypair();
+            let pub_address = eth_wallet::public_key_address(&pub_key);
+            let pub_address_string = format!("{:?}", &pub_address);
+
+            println!("\nSecret Key:       {}", &secret_key.to_string().green());
+            println!("Public Key:       {}", &pub_key.to_string().green());
+            //println!("Public Address: {:?}", &pub_address);
+            println!("Public Address:   {}\n", &pub_address_string.green());
+        }
+        
 
     if let Some(matches) = matches.subcommand_matches("send") {
 
         let to_addr = matches.get_one::<String>("to-addr").unwrap(); 
         let value = matches.get_one::<String>("value").unwrap();
         let secret_key = matches.get_one::<String>("secret-key").unwrap();
-
         let transaction = eth_wallet::create_eth_transaction(
             Address::from_str(to_addr)?,
             value.parse::<f64>()?,
         );
         let transact_hash = eth_wallet::sign_and_send(&web3_con, transaction, &SecretKey::from_str(secret_key)?).await?;
-        println!("Transaction Hash: {:?}", transact_hash);
+        let transact_hash_string = format!("{:?}", &transact_hash);
+
+        //println!("Transaction Hash:       {:?}", &transact_hash);
+        println!("\nTransaction Hash:   {}\n", &transact_hash_string.green());
     }
 
     if let Some(matches) = matches.subcommand_matches("balance") {
-        let address = matches.get_one::<String>("addr").unwrap();
 
+        let address = matches.get_one::<String>("addr").unwrap();
         let balance = eth_wallet::get_balance_in_eth_static(&address, &web3_con).await?;
-        println!("wallet balance: {}", &balance);
+        let formatted_balance = format!("{} ETH", &balance.to_string());
+
+        println!("\nWallet Balance:   {}\n", &formatted_balance.to_string().green());
     }
 
     if let Some(_matches) = matches.subcommand_matches("block") {
+        
         let block_number = web3_con.eth().block_number().await?;
-        println!("block number: {}", &block_number);
+
+        println!("\nBlock Number:   {}\n", &block_number.to_string().green());
     }
 
     Ok(())
